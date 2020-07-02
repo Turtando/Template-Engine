@@ -10,165 +10,185 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 var employees = [];
 // Create a new Manager
-inquirer.prompt([
+inquirer
+  .prompt([
     {
-        message: "What is your manager's name?",
-        name: "name",
-        type: "input"
-    }, 
-    {
-        message: "What is your manager's id?",
-        name: "id",
-        type: "input"
-    }, 
-    {
-        message: "What is your manager's email",
-        name: "id",
-        type: "input"
+      message: "What is your manager's name?",
+      name: "name",
+      type: "input",
     },
     {
-    message: "What is your manager's office number?",
-    name: "officeNumber",
-    type: "input"
-    }, 
-])
-.then(function(response) {
-    var newManager = new Manager(response.name, response.id, response.email)
-    employees.push(newManager)
+      message: "What is your manager's id?",
+      name: "id",
+      type: "input",
+    },
+    {
+      message: "What is your manager's email",
+      name: "id",
+      type: "input",
+    },
+    {
+      message: "What is your manager's office number?",
+      name: "officeNumber",
+      type: "input",
+    },
+  ])
+  .then(function (response) {
+    var newManager = new Manager(response.name, response.id, response.email);
+    employees.push(newManager);
     var exit = false;
-        // Ask which type of employee
-        inquirer.prompt([
-            {
-                message: "What type of employee would you like to add?",
-                name: "role",
-                type: "list",
-                choices: ["Engineer","Intern","None"]
-            }
-        ])
-            // New Engineer
-            var newEngineer = new Engineer(response.name, response.id, response.email, response.github)
-            employees.push(newEngineer)
-            inquirer.prompt([
-                {
-                    message: "What is your engineer's name?",
-                    name: "name",
-                    type: "input"
-                }, 
-                {
-                    message: "What is your engineer's id?",
-                    name: "id",
-                    type: "input"
-                }, 
-                {
-                    message: "What is your engineer's email",
-                    name: "id",
-                    type: "input"
-                },
-                {
-                    message: "What is your engineer's github username?",
-                    name: "github",
-                    type: "input"
-                },
-            ])
-            // New Intern
-            var newIntern = new Intern(response.name, response.id, response.email, response.school)
-            employees.push(newIntern)
-            inquirer.prompt([
-                {
-                    message: "What is your intern's name?",
-                    name: "name",
-                    type: "input"
-                }, 
-                {
-                    message: "What is your intern's id?",
-                    name: "id",
-                    type: "input"
-                }, 
-                {
-                    message: "What is your intern's email",
-                    name: "id",
-                    type: "input"
-                },
-                {
-                    message: "What is your intern's school?",
-                    name: "school",
-                    type: "input"
-                },
-            ])
-            // None
-            exit = true;
-})
+    // Ask which type of employee
+    inquirer.prompt([
+      {
+        message: "What type of employee would you like to add?",
+        name: "role",
+        type: "list",
+        choices: ["Engineer", "Intern", "None"],
+      },
+    ]);
+    // New Engineer
+    var newEngineer = new Engineer(
+      response.name,
+      response.id,
+      response.email,
+      response.github
+    );
+    employees.push(newEngineer);
+    inquirer.prompt([
+      {
+        message: "What is your engineer's name?",
+        name: "name",
+        type: "input",
+      },
+      {
+        message: "What is your engineer's id?",
+        name: "id",
+        type: "input",
+      },
+      {
+        message: "What is your engineer's email",
+        name: "id",
+        type: "input",
+      },
+      {
+        message: "What is your engineer's github username?",
+        name: "github",
+        type: "input",
+      },
+    ]);
+    // New Intern
+    var newIntern = new Intern(
+      response.name,
+      response.id,
+      response.email,
+      response.school
+    );
+    employees.push(newIntern);
+    inquirer.prompt([
+      {
+        message: "What is your intern's name?",
+        name: "name",
+        type: "input",
+      },
+      {
+        message: "What is your intern's id?",
+        name: "id",
+        type: "input",
+      },
+      {
+        message: "What is your intern's email",
+        name: "id",
+        type: "input",
+      },
+      {
+        message: "What is your intern's school?",
+        name: "school",
+        type: "input",
+      },
+    ]);
+    // None
+    exit = true;
+  });
 render.render(employees);
 
 function moreEmployees() {
-            // Ask which type of employee
-            inquirer.prompt([
-                {
-                    message: "What type of employee would you like to add?",
-                    name: "role",
-                    type: "list",
-                    choices: ["Engineer","Internet","None"]
-                }
-            ]);
-                // New Engineer
-                var newEngineer = new Engineer(response.name, response.id, response.email, response.github)
-                employees.push(newEngineer)
-                moreEmployees();
-                inquirer.prompt([
-                    {
-                        message: "What is your engineer's name?",
-                        name: "name",
-                        type: "input"
-                    }, 
-                    {
-                        message: "What is your engineer's id?",
-                        name: "id",
-                        type: "input"
-                    }, 
-                    {
-                        message: "What is your engineer's email",
-                        name: "id",
-                        type: "input"
-                    },
-                    {
-                        message: "What is your engineer's github username?",
-                        name: "github",
-                        type: "input"
-                    },
-                ]);
-                // New Intern
-                var newIntern = new Intern(response.name, response.id, response.email, response.school)
-                employees.push(newIntern)
-                moreEmployees();
-                inquirer.prompt([
-                    {
-                        message: "What is your intern's name?",
-                        name: "name",
-                        type: "input"
-                    }, 
-                    {
-                        message: "What is your intern's id?",
-                        name: "id",
-                        type: "input"
-                    }, 
-                    {
-                        message: "What is your intern's email",
-                        name: "id",
-                        type: "input"
-                    },
-                    {
-                        message: "What is your intern's school?",
-                        name: "school",
-                        type: "input"
-                    },
-                ]);
-                // None
-                exit = true;
+  // Ask which type of employee
+  inquirer.prompt([
+    {
+      message: "What type of employee would you like to add?",
+      name: "role",
+      type: "list",
+      choices: ["Engineer", "Internet", "None"],
+    },
+  ]);
+  // New Engineer
+  var newEngineer = new Engineer(
+    response.name,
+    response.id,
+    response.email,
+    response.github
+  );
+  employees.push(newEngineer);
+  moreEmployees();
+  inquirer.prompt([
+    {
+      message: "What is your engineer's name?",
+      name: "name",
+      type: "input",
+    },
+    {
+      message: "What is your engineer's id?",
+      name: "id",
+      type: "input",
+    },
+    {
+      message: "What is your engineer's email",
+      name: "id",
+      type: "input",
+    },
+    {
+      message: "What is your engineer's github username?",
+      name: "github",
+      type: "input",
+    },
+  ]);
+  // New Intern
+  var newIntern = new Intern(
+    response.name,
+    response.id,
+    response.email,
+    response.school
+  );
+  employees.push(newIntern);
+  moreEmployees();
+  inquirer.prompt([
+    {
+      message: "What is your intern's name?",
+      name: "name",
+      type: "input",
+    },
+    {
+      message: "What is your intern's id?",
+      name: "id",
+      type: "input",
+    },
+    {
+      message: "What is your intern's email",
+      name: "id",
+      type: "input",
+    },
+    {
+      message: "What is your intern's school?",
+      name: "school",
+      type: "input",
+    },
+  ]);
+  // None
+  exit = true;
 }
 moreEmployees();
 render.render(employees);
