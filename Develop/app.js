@@ -1,3 +1,4 @@
+const Employee = require("./lib/Employee");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -28,7 +29,7 @@ inquirer
     },
     {
       message: "What is your manager's email",
-      name: "id",
+      name: "email",
       type: "input",
     },
     {
@@ -38,160 +39,107 @@ inquirer
     },
   ])
   .then(function (response) {
-    var newManager = new Manager(response.name, response.id, response.email);
+    var newManager = new Manager(
+      response.name,
+      response.id,
+      response.email,
+      response.officeNumber
+    );
     employees.push(newManager);
     var exit = false;
-    // Ask which type of employee
-    inquirer.prompt([
+
+    // Start Loop
+    while ((exit = false)) {
+      moreEmployees();
+    }
+  });
+// render.render(employees);
+
+function moreEmployees() {
+  // Ask which type of employee
+  inquirer
+    .prompt([
       {
         message: "What type of employee would you like to add?",
         name: "role",
         type: "list",
         choices: ["Engineer", "Intern", "None"],
       },
-    ]);
-    // New Engineer
-    var newEngineer = new Engineer(
-      response.name,
-      response.id,
-      response.email,
-      response.github
-    );
-    employees.push(newEngineer);
-    inquirer.prompt([
-      {
-        message: "What is your engineer's name?",
-        name: "name",
-        type: "input",
-      },
-      {
-        message: "What is your engineer's id?",
-        name: "id",
-        type: "input",
-      },
-      {
-        message: "What is your engineer's email",
-        name: "id",
-        type: "input",
-      },
-      {
-        message: "What is your engineer's github username?",
-        name: "github",
-        type: "input",
-      },
-    ]);
-    // New Intern
-    var newIntern = new Intern(
-      response.name,
-      response.id,
-      response.email,
-      response.school
-    );
-    employees.push(newIntern);
-    inquirer.prompt([
-      {
-        message: "What is your intern's name?",
-        name: "name",
-        type: "input",
-      },
-      {
-        message: "What is your intern's id?",
-        name: "id",
-        type: "input",
-      },
-      {
-        message: "What is your intern's email",
-        name: "id",
-        type: "input",
-      },
-      {
-        message: "What is your intern's school?",
-        name: "school",
-        type: "input",
-      },
-    ]);
-    // None
-    exit = true;
-  });
-render.render(employees);
-
-function moreEmployees() {
-  // Ask which type of employee
-  inquirer.prompt([
-    {
-      message: "What type of employee would you like to add?",
-      name: "role",
-      type: "list",
-      choices: ["Engineer", "Internet", "None"],
-    },
-  ]);
-  // New Engineer
-  var newEngineer = new Engineer(
-    response.name,
-    response.id,
-    response.email,
-    response.github
-  );
-  employees.push(newEngineer);
-  moreEmployees();
-  inquirer.prompt([
-    {
-      message: "What is your engineer's name?",
-      name: "name",
-      type: "input",
-    },
-    {
-      message: "What is your engineer's id?",
-      name: "id",
-      type: "input",
-    },
-    {
-      message: "What is your engineer's email",
-      name: "id",
-      type: "input",
-    },
-    {
-      message: "What is your engineer's github username?",
-      name: "github",
-      type: "input",
-    },
-  ]);
-  // New Intern
-  var newIntern = new Intern(
-    response.name,
-    response.id,
-    response.email,
-    response.school
-  );
-  employees.push(newIntern);
-  moreEmployees();
-  inquirer.prompt([
-    {
-      message: "What is your intern's name?",
-      name: "name",
-      type: "input",
-    },
-    {
-      message: "What is your intern's id?",
-      name: "id",
-      type: "input",
-    },
-    {
-      message: "What is your intern's email",
-      name: "id",
-      type: "input",
-    },
-    {
-      message: "What is your intern's school?",
-      name: "school",
-      type: "input",
-    },
-  ]);
-  // None
-  exit = true;
+    ])
+    .then(function (response) {
+      console.log(response);
+      if (response.role === "Engineer") {
+        inquirer
+          .prompt([
+            {
+              message: "What is your engineer's name?",
+              name: "name",
+              type: "input",
+            },
+            {
+              message: "What is your engineer's id?",
+              name: "id",
+              type: "input",
+            },
+            {
+              message: "What is your engineer's email",
+              name: "id",
+              type: "input",
+            },
+            {
+              message: "What is your engineer's github username?",
+              name: "github",
+              type: "input",
+            },
+          ])
+          .then(function (response) {
+            var newEngineer = new Engineer(
+              response.name,
+              response.id,
+              response.email,
+              response.github
+            );
+            employees.push(newEngineer);
+          });
+      } else if (response.role === "Intern") {
+        inquirer
+          .prompt([
+            {
+              message: "What is your intern's name?",
+              name: "name",
+              type: "input",
+            },
+            {
+              message: "What is your intern's id?",
+              name: "id",
+              type: "input",
+            },
+            {
+              message: "What is your intern's email",
+              name: "id",
+              type: "input",
+            },
+            {
+              message: "What is your intern's school?",
+              name: "school",
+              type: "input",
+            },
+          ])
+          .then(function (response) {
+            var newIntern = new Intern(
+              response.name,
+              response.id,
+              response.email,
+              response.school
+            );
+            employees.push(newIntern);
+          });
+      } else if (response.role === "None") {
+        exit = true;
+      }
+    });
 }
-moreEmployees();
-render.render(employees);
+// render.render(employees);
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
