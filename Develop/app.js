@@ -52,9 +52,10 @@ inquirer
     while ((exit = false)) {
       moreEmployees();
     }
+    moreEmployees();
   });
-// render.render(employees);
 
+// render.render(employees);
 function moreEmployees() {
   // Ask which type of employee
   inquirer
@@ -67,7 +68,6 @@ function moreEmployees() {
       },
     ])
     .then(function (response) {
-      console.log(response);
       if (response.role === "Engineer") {
         inquirer
           .prompt([
@@ -83,7 +83,7 @@ function moreEmployees() {
             },
             {
               message: "What is your engineer's email",
-              name: "id",
+              name: "email",
               type: "input",
             },
             {
@@ -100,6 +100,7 @@ function moreEmployees() {
               response.github
             );
             employees.push(newEngineer);
+            moreEmployees();
           });
       } else if (response.role === "Intern") {
         inquirer
@@ -133,13 +134,28 @@ function moreEmployees() {
               response.school
             );
             employees.push(newIntern);
+            moreEmployees();
           });
       } else if (response.role === "None") {
         exit = true;
+        console.log("Your team is complete!");
+      
+
+        fs.writeFile(outputPath, render(employees), function(err) {
+          if(err) {
+              throw err;
+          }
+    
+        });
+        
       }
     });
+
 }
-// render.render(employees);
+
+  
+  
+// };
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
