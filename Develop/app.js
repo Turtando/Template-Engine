@@ -116,8 +116,8 @@ function moreEmployees() {
               type: "input",
             },
             {
-              message: "What is your intern's email",
-              name: "id",
+              message: "What is your intern's email?",
+              name: "email",
               type: "input",
             },
             {
